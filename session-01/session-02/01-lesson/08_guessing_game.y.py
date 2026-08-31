@@ -1,4 +1,7 @@
-secret_number = 10
+import random
+
+secret_number  = random.randint(1, 50)
+
 attempts_left = 5
 quessed_correctly = False
 
@@ -15,6 +18,10 @@ while attempts_left > 0 and not quessed_correctly:
     else:
         attempts_left -= 1
         print("for lavt!")
+
+
+if attempts_left == 0 and not quessed_correctly:
+    print(f"nummeret var: {secret_number}")
 
 
 
