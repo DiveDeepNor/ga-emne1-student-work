@@ -1,0 +1,38 @@
+SUPPORT-RAPPORT
+===============
+
+Antall gyldige henvendelser: 15
+Antall løste henvendelser: 9
+Antall uløste henvendelser: 6
+
+Antall henvendelser per kategori:
+  innlogging: 4
+  nettverk: 2
+  programvare: 4
+  utstyr: 5
+
+Tidsbruk per kategori:
+  innlogging:
+    Samlet tidsbruk: 53 minutter
+    Gjennomsnittlig tidsbruk: 13.25 minutter
+  nettverk:
+    Samlet tidsbruk: 62 minutter
+    Gjennomsnittlig tidsbruk: 31.00 minutter
+  programvare:
+    Samlet tidsbruk: 134 minutter
+    Gjennomsnittlig tidsbruk: 33.50 minutter
+  utstyr:
+    Samlet tidsbruk: 217 minutter
+    Gjennomsnittlig tidsbruk: 43.40 minutter
+
+Samlet tidsbruk for løste henvendelser: 184 minutter
+
+Kategori med flest henvendelser: utstyr (5)
+
+Uløste henvendelser, mest tidkrevende først:
+  ID 13: utstyr - 63 minutter
+  ID 4: utstyr - 55 minutter
+  ID 10: programvare - 48 minutter
+  ID 2: programvare - 42 minutter
+  ID 17: utstyr - 39 minutter
+  ID 7: nettverk - 35 minutter
