@@ -1,0 +1,116 @@
+TESTRESULTATER – OPPGAVE 5
+
+Programmet er kontrollert mot oppgaveteksten og testet med både normale og ugyldige input.
+
+TEKNISK KONTROLL
+
+Python-filen er kompilert med py_compile uten syntax-feil.
+Resultat: Godkjent.
+
+FULL PROGRAMKJØRING
+
+Programmet er kjørt fra tom mappe uten aktiviteter.csv.
+Resultat:
+Datafilen ble opprettet.
+Programmet startet med tom aktivitetsliste.
+Programmet avsluttet normalt.
+
+REGISTRERING
+
+Det ble registrert tre aktiviteter med ulike kategorier, datoer og varigheter.
+Resultat:
+Aktivitetene ble lagt til i listen og vist i terminalen.
+
+FILTRERING PÅ KATEGORI
+
+Kategori ble søkt etter med tekst som matchet deler av kategorinavnet.
+Resultat:
+Riktig aktivitet ble vist.
+
+FILTRERING PÅ STATUS
+
+Det ble filtrert på planned.
+Resultat:
+Bare aktiviteter med planned-status ble vist.
+
+SORTERING PÅ DATO
+
+Aktiviteter med forskjellige datoer ble sortert.
+Resultat:
+Eldste dato kom først.
+
+SORTERING PÅ VARIGHET
+
+Aktiviteter med forskjellige varigheter ble sortert.
+Resultat:
+Lengste varighet kom først.
+
+MARKERE FULLFØRT
+
+En planlagt aktivitet ble valgt og markert som completed.
+Resultat:
+Status ble endret korrekt.
+
+STATISTIKK
+
+Tre aktiviteter med samlet estimert tid på 240 minutter ble brukt i testen.
+Én aktivitet ble markert som fullført.
+Resultat:
+Antall aktiviteter: 3
+Samlet estimert tid: 240 minutter
+Antall fullførte: 1
+
+LAGRING OG INNLESING
+
+Aktivitetene ble lagret til aktiviteter.csv og lest inn igjen.
+Deretter ble programmet avsluttet og startet på nytt.
+Resultat:
+Aktivitetene var fortsatt tilgjengelige ved ny oppstart.
+
+FEILHÅNDTERING
+
+Testet ugyldig menyvalg.
+Testet tom tittel.
+Testet tom kategori.
+Testet ugyldig dato.
+Testet tekst som varighet.
+Testet null varighet.
+Testet negativ varighet.
+Testet ugyldig status.
+Testet ugyldig sorteringsvalg.
+Testet ugyldig valg ved markering som fullført.
+
+Resultat:
+Programmet viste forståelige feilmeldinger og fortsatte uten å stoppe.
+
+MANGLENDE DATAFIL
+
+aktiviteter.csv ble fjernet før oppstart.
+Resultat:
+Programmet opprettet ny datafil med kolonneoverskrifter og fortsatte med tom samling.
+
+UGYLDIGE CSV-RADER
+
+En testfil med ugyldig dato, manglende kategori, negativ varighet og ugyldig status ble lest.
+Resultat:
+Ugyldige rader ble hoppet over med melding om hvilken rad som var ugyldig. Gyldige rader ble beholdt.
+
+OPPGAVETEKST
+
+Klasse Aktivitet: Godkjent.
+Påkrevde attributter: Godkjent.
+Minst én klassemetode: Godkjent.
+Minst tre ekstra funksjoner: Godkjent.
+Liste med aktiviteter: Godkjent.
+Nummerert meny: Godkjent.
+Meny vises på nytt etter hvert valg: Godkjent.
+Registrere og vise aktiviteter: Godkjent.
+Filtrere kategori: Godkjent.
+Filtrere status: Godkjent.
+Sortere etter dato eller varighet: Godkjent.
+Markere aktivitet som fullført: Godkjent.
+Statistikk: Godkjent.
+Lagre til fil og lese inn igjen: Godkjent.
+Opprette manglende datafil: Godkjent.
+Validering av input: Godkjent.
+README-dokumentasjon: Godkjent.
