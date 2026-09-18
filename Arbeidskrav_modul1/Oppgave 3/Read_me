@@ -1,0 +1,173 @@
+Oppgave 3 – Planlegger studieøkter
+
+BESKRIVELSE
+
+Programmet planlegger en studieøkt ved å lese inn dato, starttidspunkt og varighet fra tastaturet.
+
+Programmet bruker Python-standardbiblioteket datetime til å:
+
+Konvertere tekst til dato og tidspunkt
+Kombinere dato og klokkeslett
+Beregne sluttidspunkt
+Beregne antall dager mellom to datoer
+Sortere en liste med datoer kronologisk
+
+Programmet kontrollerer også at varigheten er et positivt heltall. Ved ugyldig dato, tidspunkt eller varighet får brukeren en feilmelding og kan prøve på nytt.
+
+FUNKSJONER
+
+les_dato(dato_tekst)
+
+Tar imot en dato som tekst på formatet dd.mm.åååå og returnerer en datetime-verdi.
+
+Eksempel:
+dato = les_dato("18.09.2026")
+
+les_tidspunkt()
+
+Leser inn et gyldig starttidspunkt på formatet tt og returnerer en datetime-verdi.
+
+kombiner_dato(dato, tidspunkt)
+
+Kombinerer datoen fra én datetime-verdi med klokkeslettet fra en annen og returnerer ett nytt datetime-objekt.
+
+beregn_slutt(start, minutter)
+
+Tar imot et starttidspunkt og antall minutter og returnerer sluttidspunktet.
+
+dager_mellom(start, slutt)
+
+Tar imot to datetime-verdier og returnerer et positivt heltall som viser antall hele dager mellom datoene.
+
+sorter_datoer(datoer)
+
+Tar imot en liste med datetime-verdier og returnerer en ny liste sortert kronologisk.
+
+STANDARDBIBLIOTEK
+
+Programmet bruker modulen datetime fra Python-standardbiblioteket.
+
+datetime.strptime() brukes til å tolke tekst som dato og tidspunkt.
+timedelta brukes til å representere tidsintervaller og til å legge minutter til et starttidspunkt.
+datetime.combine() brukes til å kombinere dato og klokkeslett.
+datetime-objekter kan trekkes fra hverandre for å få et timedelta-objekt.
+
+Offisiell dokumentasjon:
+https://docs.python.org/3/library/datetime.html
+
+Programmet bruker også den innebygde funksjonen sorted() for å returnere en ny, sortert liste.
+
+Offisiell dokumentasjon:
+https://docs.python.org/3/library/functions.html
+
+TESTING
+
+Test 1
+Test: Gyldig dato
+Input: 01.01.2026
+Forventet resultat: Datoen godtas
+Resultat: Godkjent
+
+Test 2
+Test: Ugyldig dato
+Input: 31.02.2026
+Forventet resultat: Feilmelding og nytt forsøk
+Resultat: Godkjent
+
+Test 3
+Test: Gyldig tidspunkt
+Input: 14:30
+Forventet resultat: Tidspunktet godtas
+Resultat: Godkjent
+
+Test 4
+Test: Ugyldig tidspunkt
+Input: 25:70
+Forventet resultat: Feilmelding og nytt forsøk
+Resultat: Godkjent
+
+Test 5
+Test: Gyldig varighet
+Input: 60
+Forventet resultat: Varigheten godtas
+Resultat: Godkjent
+
+Test 6
+Test: Null varighet
+Input: 0
+Forventet resultat: Feilmelding og nytt forsøk
+Resultat: Godkjent
+
+Test 7
+Test: Negativ varighet
+Input: -20
+Forventet resultat: Feilmelding og nytt forsøk
+Resultat: Godkjent
+
+Test 8
+Test: Ikke-tall som varighet
+Input: abc
+Forventet resultat: Feilmelding og nytt forsøk
+Resultat: Godkjent
+
+Test 9
+Test: Dager mellom datoer
+Input: 01.01.2026 og 05.01.2026
+Forventet resultat: 4 dager
+Resultat: Godkjent
+
+Test 10
+Test: Omvendt rekkefølge
+Input: 05.01.2026 og 01.01.2026
+Forventet resultat: 4 dager
+Resultat: Godkjent
+
+Test 11
+Test: Sortering av datoer
+Input: Flere datoer i tilfeldig rekkefølge
+Forventet resultat: Kronologisk sortert liste
+Resultat: Godkjent
+
+EKSEMPEL PÅ KJØRING
+
+PLANLEGGING AV STUDIEØKT
+
+Skriv inn dato (dd.mm.åååå): 01.01.2026
+Skriv inn starttidspunkt (tt): 14:30
+Hvor lenge skal du studere? 90
+Skriv inn en annen dato for å beregne dager mellom (dd.mm.åååå): 12.02.2026
+
+DATOER TIL SORTERING
+
+Skriv inn flere datoer.
+Trykk Enter uten tekst når du er ferdig.
+
+Dato (dd.mm.åååå): 18.09.2026
+Dato (dd.mm.åååå): 05.01.2026
+Dato (dd.mm.åååå): 25.03.2026
+Dato (dd.mm.åååå):
+
+RESULTATER
+
+Start: 01.01.2026 14:30
+Slutt: 01.01.2026 16:00
+Varighet: 90 minutter
+Dager mellom datoene: 42
+
+Sorterte datoer:
+05.01.2026
+25.03.2026
+18.09.2026
+
+OPPFYLLELSE AV OPPGAVEN
+
+Programmet oppfyller kravene i oppgaveteksten.
+
+Funksjon for å ta imot og konvertere dato på formatet dd.mm.åååå.
+Funksjon for å beregne sluttidspunkt fra starttidspunkt og minutter.
+Funksjon for å beregne positivt antall dager mellom to datoer.
+Funksjon for å sortere en liste med datoer kronologisk.
+Bruk av relevant Python-standardbibliotek.
+Funksjonene returnerer verdier som brukes videre i hovedprogrammet.
+Ugyldig dato, tidspunkt og varighet gir feilmelding og nytt forsøk.
+Minst seks testtilfeller er dokumentert.
