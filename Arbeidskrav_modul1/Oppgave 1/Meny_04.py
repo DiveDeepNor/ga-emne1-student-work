@@ -14,21 +14,21 @@ while True:
     while True:
         # Leser inn valg
         try:
-            meny_valg = int(input("Skriv inn menyvalg: "))
+            menu_choice = int(input("Skriv inn menyvalg: "))
             break
 
         except ValueError:
             print("Feil: Du må skrive inn et tall mellom 1 og 4.")
 
-    if meny_valg > 4 or meny_valg < 1:
+    if menu_choice > 4 or menu_choice < 1:
         print("Valg må være mellom 1 og 4")
-    elif meny_valg == 1:
-            oppgave_1_1()
-    elif meny_valg == 2:
-            oppgave_1_2()
-    elif meny_valg == 3:
-            oppgave_1_3()
-    elif meny_valg == 4:
+    elif menu_choice == 1:
+            Task_1_1()
+    elif menu_choice == 2:
+            Task_1_2()
+    elif menu_choice == 3:
+            Task_1_3()
+    elif menu_choice == 4:
             print("Velkommen igjen!")
             break
 

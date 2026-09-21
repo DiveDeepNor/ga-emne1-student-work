@@ -1,6 +1,6 @@
 # Oppgave 1.3
 
-def oppgave_1_3():
+def Task_1_3():
     while True:
         while True:
             try:

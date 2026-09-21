@@ -1,6 +1,6 @@
 # Oppgave 1.2
 
-def oppgave_1_2():
+def Task_1_2():
     while True:
         text = input("Skriv inn tekst: ")
         if not text.strip():
@@ -13,14 +13,14 @@ def oppgave_1_2():
         except ValueError:
             break
 
-    antall_full = len(text)
-    antall_strip = len(text.replace(" ",""))
-    baklengs = text[::-1]
+    text_length = len(text)
+    text_length_strip = len(text.replace(" ",""))
+    bakwards = text[::-1]
 
 
-    print(antall_full)
-    print(antall_strip)
-    print(baklengs)
+    print(text_length)
+    print(text_length_strip)
+    print(bakwards)
     if "python" in text.lower():
         print("Python er skrevet")
     else:

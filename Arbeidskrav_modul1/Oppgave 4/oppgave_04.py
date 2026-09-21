@@ -1,38 +1,42 @@
 import csv
 from pathlib import Path
 
+# Oppgave 4
 
-CSV_FIL = Path(__file__).resolve().parent / "supporthenvendelser.csv"
-RAPPORT_FIL = Path(__file__).resolve().parent / "support-rapport.txt"
-FORVENTEDE_FELT = ["id", "category", "minutes", "is_resolved"]
+# Leser inn CSV og Txt fil
 
+csv_file = Path(__file__).resolve().parent / "supporthenvendelser.csv"
+txt_file = Path(__file__).resolve().parent / "support-rapport.txt"
+expected_fields = ["id", "category", "minutes", "is_resolved"]
 
-def les_supporthenvendelser(filnavn):
-    """Leser CSV-filen rad for rad og returnerer bare gyldige rader."""
-    gyldige_rader = []
+# Starter med å definere noen funksjoner som jeg kan bruke senere.
+
+def les_supporthenvendelser(filename):
+    # Leser CSV-filen rad for rad og returnerer bare gyldige rader
+    valid_rows = []
 
     try:
-        with open(filnavn, "r", encoding="utf-8", newline="") as fil:
-            leser = csv.DictReader(fil)
+        with open(filename, "r", encoding="utf-8", newline="") as fil:
+            file = csv.DictReader(fil)
 
-            if leser.fieldnames != FORVENTEDE_FELT:
+            if file.fieldnames != expected_fields:
                 print(
                     "Feil i CSV-filen: forventet kolonnene "
                     "id, category, minutes, is_resolved."
                 )
                 return []
 
-            for radnummer, rad in enumerate(leser, start=2):
-                problem = valider_rad(rad)
+            for rownumber, row in enumerate(file, start=2):
+                fault = Validates_rows(row)
 
-                if problem is not None:
-                    print(f"Rad {radnummer} er ugyldig: {problem}")
+                if fault is not None:
+                    print(f"Rad {rownumber} er ugyldig: {fault}")
                     continue
 
-                gyldige_rader.append(rad)
+                valid_rows.append(row)
 
     except FileNotFoundError:
-        print(f"Fant ikke CSV-filen: {filnavn.name}")
+        print(f"Fant ikke CSV-filen: {filename.name}")
         return []
     except UnicodeDecodeError:
         print("Kunne ikke lese CSV-filen som UTF-8.")
@@ -44,43 +48,43 @@ def les_supporthenvendelser(filnavn):
         print(f"Kunne ikke åpne eller lese CSV-filen: {feil}")
         return []
 
-    return gyldige_rader
+    return valid_rows
 
 
-def valider_rad(rad):
-    """Kontrollerer at alle feltene er utfylt og har gyldig verdi."""
-    if None in rad:
+def Validates_rows(row):
+    # Kontrollerer at feltene er utfylt og har gyldig verdi
+    if None in row:
         return "for mange felt i raden"
 
-    for felt in FORVENTEDE_FELT:
-        verdi = rad.get(felt)
-        if verdi is None or verdi.strip() == "":
-            return f"feltet '{felt}' mangler verdi"
+    for fields in expected_fields:
+        value = row.get(fields)
+        if value is None or value.strip() == "":
+            return f"feltet '{fields}' mangler verdi"
 
     try:
-        id_verdi = int(rad["id"])
+        id_value = int(row["id"])
     except ValueError:
         return "id må være et heltall"
 
-    if id_verdi <= 0:
+    if id_value <= 0:
         return "id må være et positivt heltall"
 
     try:
-        minutter = int(rad["minutes"])
+        minutes = int(row["minutes"])
     except ValueError:
         return "minutes må være et heltall"
 
-    if minutter < 0:
+    if minutes < 0:
         return "minutes må være 0 eller større"
 
-    if rad["is_resolved"] not in ("yes", "no"):
+    if row["is_resolved"] not in ("yes", "no"):
         return "is_resolved må være nøyaktig 'yes' eller 'no'"
 
     return None
 
 
-def sum_resolved_minutes(requests: list[dict[str, str]]) -> int:
-    """Returnerer samlet tidsbruk for alle løste henvendelser."""
+def Sum_resolved_minutes(requests: list[dict[str, str]]) -> int:
+    # Returnerer samlet tidsbruk for alle løste henvendelser
     total = 0
 
     for request in requests:
@@ -90,124 +94,124 @@ def sum_resolved_minutes(requests: list[dict[str, str]]) -> int:
     return total
 
 
-def analyser_data(requests):
-    """Beregner statistikk basert på de gyldige CSV-radene."""
-    antall_per_kategori = {}
-    minutter_per_kategori = {}
-    antall_loste = 0
-    antall_uloste = 0
+def Analyse_data(requests):
+    # Beregner statistikk på de gyldige CSV-radene
+    count_pr_category = {}
+    minutes_pr_category = {}
+    number_resolved = 0
+    number_unresolved = 0
 
     for request in requests:
-        kategori = request["category"]
-        minutter = int(request["minutes"])
+        categori = request["category"]
+        minutes = int(request["minutes"])
 
-        if kategori not in antall_per_kategori:
-            antall_per_kategori[kategori] = 0
-            minutter_per_kategori[kategori] = 0
+        if categori not in count_pr_category:
+            count_pr_category[categori] = 0
+            minutes_pr_category[categori] = 0
 
-        antall_per_kategori[kategori] += 1
-        minutter_per_kategori[kategori] += minutter
+        count_pr_category[categori] += 1
+        minutes_pr_category[categori] += minutes
 
         if request["is_resolved"] == "yes":
-            antall_loste += 1
+            number_resolved += 1
         else:
-            antall_uloste += 1
+            number_unresolved += 1
 
-    kategori_statistikk = {}
-    for kategori in antall_per_kategori:
-        antall = antall_per_kategori[kategori]
-        samlet_tid = minutter_per_kategori[kategori]
-        kategori_statistikk[kategori] = {
-            "antall": antall,
-            "samlet_tid": samlet_tid,
-            "gjennomsnitt": samlet_tid / antall,
+    category_stats = {}
+    for categori in count_pr_category:
+        count = count_pr_category[categori]
+        total_time = minutes_pr_category[categori]
+        category_stats[categori] = {
+            "antall": count,
+            "samlet_tid": total_time,
+            "gjennomsnitt": total_time / count,
         }
 
-    flest_henvendelser = []
-    if kategori_statistikk:
-        maks_antall = max(
+    most_inquiries = []
+    if category_stats:
+        max_number = max(
             statistikk["antall"]
-            for statistikk in kategori_statistikk.values()
+            for statistikk in category_stats.values()
         )
-        flest_henvendelser = [
+        most_inquiries = [
             kategori
-            for kategori, statistikk in kategori_statistikk.items()
-            if statistikk["antall"] == maks_antall
+            for kategori, statistikk in category_stats.items()
+            if statistikk["antall"] == max_number
         ]
 
-    uloste = [
+    unresolved = [
         request
         for request in requests
         if request["is_resolved"] == "no"
     ]
-    uloste_sortert = sorted(
-        uloste,
+    unresolved_sorted = sorted(
+        unresolved,
         key=lambda request: int(request["minutes"]),
         reverse=True,
     )
 
     return {
         "antall_gyldige": len(requests),
-        "antall_per_kategori": antall_per_kategori,
-        "kategori_statistikk": kategori_statistikk,
-        "antall_loste": antall_loste,
-        "antall_uloste": antall_uloste,
-        "flest_henvendelser": flest_henvendelser,
-        "uloste_sortert": uloste_sortert,
-        "sum_loste_minutter": sum_resolved_minutes(requests),
+        "antall_per_kategori": count_pr_category,
+        "kategori_statistikk": category_stats,
+        "antall_loste": number_resolved,
+        "antall_uloste": number_unresolved,
+        "flest_henvendelser": most_inquiries,
+        "uloste_sortert": unresolved_sorted,
+        "sum_loste_minutter": Sum_resolved_minutes(requests),
     }
 
 
-def skriv_rapport(rapport_fil, statistikk):
-    """Skriver analysen til rapportfilen og overskriver eventuell gammel rapport."""
+def Report(report_fil, stats):
+    # Lager en analysen til rapportfilen og overskriver eventuell gammel fil
     try:
-        with open(rapport_fil, "w", encoding="utf-8") as fil:
+        with open(report_fil, "w", encoding="utf-8") as fil:
             fil.write("SUPPORT-RAPPORT\n")
             fil.write("===============\n\n")
 
             fil.write(
-                f"Antall gyldige henvendelser: {statistikk['antall_gyldige']}\n"
+                f"Antall gyldige henvendelser: {stats['antall_gyldige']}\n"
             )
             fil.write(
-                f"Antall løste henvendelser: {statistikk['antall_loste']}\n"
+                f"Antall løste henvendelser: {stats['antall_loste']}\n"
             )
             fil.write(
-                f"Antall uløste henvendelser: {statistikk['antall_uloste']}\n\n"
+                f"Antall uløste henvendelser: {stats['antall_uloste']}\n\n"
             )
 
             fil.write("Antall henvendelser per kategori:\n")
-            for kategori in sorted(statistikk["antall_per_kategori"]):
-                antall = statistikk["antall_per_kategori"][kategori]
-                fil.write(f"  {kategori}: {antall}\n")
+            for category in sorted(stats["antall_per_kategori"]):
+                number = stats["antall_per_kategori"][category]
+                fil.write(f"  {category}: {number}\n")
 
             fil.write("\nTidsbruk per kategori:\n")
-            for kategori in sorted(statistikk["kategori_statistikk"]):
-                data = statistikk["kategori_statistikk"][kategori]
-                fil.write(f"  {kategori}:\n")
+            for category in sorted(stats["kategori_statistikk"]):
+                data = stats["kategori_statistikk"][category]
+                fil.write(f"  {category}:\n")
                 fil.write(f"    Samlet tidsbruk: {data['samlet_tid']} minutter\n")
                 fil.write(
                     f"    Gjennomsnittlig tidsbruk: {data['gjennomsnitt']:.2f} minutter\n"
                 )
 
             fil.write("\nSamlet tidsbruk for løste henvendelser: ")
-            fil.write(f"{statistikk['sum_loste_minutter']} minutter\n")
+            fil.write(f"{stats['sum_loste_minutter']} minutter\n")
 
-            kategorier = statistikk["flest_henvendelser"]
-            if len(kategorier) == 1:
-                kategori = kategorier[0]
-                antall = statistikk["antall_per_kategori"][kategori]
+            category = stats["flest_henvendelser"]
+            if len(category) == 1:
+                category = category[0]
+                number = stats["antall_per_kategori"][category]
                 fil.write(
-                    f"\nKategori med flest henvendelser: {kategori} ({antall})\n"
+                    f"\nKategori med flest henvendelser: {category} ({number})\n"
                 )
-            elif kategorier:
+            elif category:
                 detaljer = ", ".join(
-                    f"{kategori} ({statistikk['antall_per_kategori'][kategori]})"
-                    for kategori in kategorier
+                    f"{kategori} ({stats['antall_per_kategori'][kategori]})"
+                    for kategori in category
                 )
                 fil.write(f"\nKategorier med flest henvendelser: {detaljer}\n")
 
             fil.write("\nUløste henvendelser, mest tidkrevende først:\n")
-            for request in statistikk["uloste_sortert"]:
+            for request in stats["uloste_sortert"]:
                 fil.write(
                     f"  ID {request['id']}: {request['category']} - "
                     f"{request['minutes']} minutter\n"
@@ -220,44 +224,44 @@ def skriv_rapport(rapport_fil, statistikk):
     return True
 
 
-def skriv_terminalresultat(statistikk):
-    """Viser analysen i terminalen."""
+def Print_result(stats):
+    # Printer analysen i terminalen
     print("\n--- ANALYSE ---")
-    print(f"Antall gyldige henvendelser: {statistikk['antall_gyldige']}")
-    print(f"Antall løste henvendelser: {statistikk['antall_loste']}")
-    print(f"Antall uløste henvendelser: {statistikk['antall_uloste']}")
+    print(f"Antall gyldige henvendelser: {stats['antall_gyldige']}")
+    print(f"Antall løste henvendelser: {stats['antall_loste']}")
+    print(f"Antall uløste henvendelser: {stats['antall_uloste']}")
 
     print("\nAntall per kategori:")
-    for kategori in sorted(statistikk["antall_per_kategori"]):
-        print(f"{kategori}: {statistikk['antall_per_kategori'][kategori]}")
+    for category in sorted(stats["antall_per_kategori"]):
+        print(f"{category}: {stats['antall_per_kategori'][category]}")
 
     print("\nTidsbruk per kategori:")
-    for kategori in sorted(statistikk["kategori_statistikk"]):
-        data = statistikk["kategori_statistikk"][kategori]
+    for category in sorted(stats["kategori_statistikk"]):
+        data = stats["kategori_statistikk"][category]
         print(
-            f"{kategori}: {data['samlet_tid']} minutter totalt, "
+            f"{category}: {data['samlet_tid']} minutter totalt, "
             f"gjennomsnitt {data['gjennomsnitt']:.2f} minutter"
         )
 
     print(
         "\nSamlet tidsbruk for løste henvendelser: "
-        f"{statistikk['sum_loste_minutter']} minutter"
+        f"{stats['sum_loste_minutter']} minutter"
     )
 
-    kategorier = statistikk["flest_henvendelser"]
-    if len(kategorier) == 1:
-        kategori = kategorier[0]
-        antall = statistikk["antall_per_kategori"][kategori]
-        print(f"Kategori med flest henvendelser: {kategori} ({antall})")
-    elif kategorier:
-        detaljer = ", ".join(
-            f"{kategori} ({statistikk['antall_per_kategori'][kategori]})"
-            for kategori in kategorier
+    categorise = stats["flest_henvendelser"]
+    if len(categorise) == 1:
+        category = categorise[0]
+        number = stats["antall_per_kategori"][category]
+        print(f"Kategori med flest henvendelser: {category} ({number})")
+    elif categorise:
+        details = ", ".join(
+            f"{category} ({stats['antall_per_kategori'][category]})"
+            for category in categorise
         )
-        print(f"Kategorier med flest henvendelser: {detaljer}")
+        print(f"Kategorier med flest henvendelser: {details}")
 
     print("\nUløste henvendelser, mest tidkrevende først:")
-    for request in statistikk["uloste_sortert"]:
+    for request in stats["uloste_sortert"]:
         print(
             f"ID {request['id']}: {request['category']} - "
             f"{request['minutes']} minutter"
@@ -268,13 +272,13 @@ def skriv_terminalresultat(statistikk):
 
 print("--- OPPGAVE 4 – SUPPORTHENVENDELSER ---")
 
-gyldige_rader = les_supporthenvendelser(CSV_FIL)
+valid_rows = les_supporthenvendelser(csv_file)
 
-if not gyldige_rader:
+if not valid_rows:
     print("Ingen gyldige rader ble funnet. Programmet avsluttes.")
 else:
-    statistikk = analyser_data(gyldige_rader)
-    skriv_terminalresultat(statistikk)
+    statistic = Analyse_data(valid_rows)
+    Print_result(statistic)
 
-    if skriv_rapport(RAPPORT_FIL, statistikk):
-        print(f"\nRapport skrevet til: {RAPPORT_FIL.name}")
+    if Report(txt_file, statistic):
+        print(f"\nRapport skrevet til: {txt_file.name}")

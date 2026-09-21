@@ -23,16 +23,16 @@ oppgave-5.py
 Hovedprogrammet med Aktivitet-klassen, funksjoner og meny.
 
 aktiviteter.csv
-Datafilen som brukes til lagring. Dersom filen ikke finnes når programmet startes, opprettes den automatisk med kolonneoverskrifter og en tom samling.
+Datafilen som brukes til lagring. 
+Dersom filen ikke finnes når programmet startes, opprettes den automatisk med kolonneoverskrifter og en tom samling.
 
 aktiviteter-eksempel.csv
 Eksempeldata som kan kopieres over til aktiviteter.csv for å starte med ferdige testdata.
 
 README.md
-Dokumentasjon av programmet.
+Dokumentasjon av programmet
 
-GIT-OPPSKRIFT.txt
-Forslag til meningsfulle Git-commits og enkel arbeidsflyt.
+
 
 
 KLASSE
@@ -48,85 +48,71 @@ status
 
 Metoden mark_completed() endrer status fra planned til completed.
 
-Programmet bruker ikke arv eller annen avansert objektorientering. Klassen er holdt på introduksjonsnivå.
 
 
 FUNKSJONER
 
-les_tekst()
+read_text()
 Leser inn tekst og kontrollerer at feltet ikke er tomt.
 
-les_dato()
+read_dato()
 Leser inn en gyldig dato på formatet dd.mm.åååå.
 
-les_positivt_heltall()
+read_pos_integer()
 Kontrollerer at estimert varighet er et positivt heltall.
 
-les_status()
+read_status()
 Kontrollerer at status er planned eller completed.
 
-vis_aktiviteter()
+show_activitys()
 Viser aktivitetene på en oversiktlig måte.
 
-registrer_aktivitet()
+register_activity()
 Leser inn en aktivitet, oppretter et Aktivitet-objekt og legger det i aktivitetslisten.
 
-filtrer_kategori()
+filt_Category()
 Søker etter tekst i kategori og viser aktivitetene som passer.
 
-filtrer_status()
+filt_status()
 Viser aktiviteter med valgt status.
 
-sorter_aktiviteter()
+sort_activitys()
 Sorterer aktivitetene etter dato eller estimert varighet.
 
-marker_fullfort()
+mark_completed()
 Viser planlagte aktiviteter og lar brukeren velge én som skal markeres som completed.
 
-vis_statistikk()
+show_stats()
 Viser totalt antall aktiviteter, samlet estimert tid og antall fullførte aktiviteter.
 
-opprett_datafil()
+create_datafile()
 Oppretter CSV-filen med riktige kolonneoverskrifter.
 
-aktivitet_til_rad()
+aktivity_to_row()
 Gjør et Aktivitet-objekt om til data som kan skrives til CSV.
 
-rad_til_aktivitet()
+row_to_aktivity()
 Kontrollerer en CSV-rad og gjør den om til et Aktivitet-objekt.
 
-lagre_aktiviteter()
+save_aktivity()
 Skriver aktivitetene til CSV-filen.
 
-les_aktiviteter()
+show_aktivity()
 Leser aktivitetene fra CSV-filen. Ugyldige rader hoppes over med en forklaring.
 
-lagre_og_les_aktiviteter()
+save_and_read_activity()
 Lagrer aktivitetene og leser dem deretter inn igjen.
 
-vis_meny()
+show_menu()
 Skriver ut menyen.
 
-les_menyvalg()
+read_menuchoice()
 Validerer at menyvalget er mellom 1 og 8.
 
 main()
 Styrer hovedprogrammet og kaller riktig funksjon.
 
 
-DATAFIL
-
-CSV ble valgt som filformat fordi CSV er enkelt å lese og skrive i Python og fordi CSV ble brukt i Oppgave 4.
-
-Datafilen har følgende kolonner:
-
-title
-category
-date
-estimated_minutes
-status
-
-Dato lagres som dd.mm.åååå.
 
 Eksempel:
 
@@ -136,11 +122,8 @@ Python,Programmering,18.09.2026,90,planned
 
 BRUK
 
-Start programmet med:
-
-python oppgave-5.py
-
-Ved første oppstart, hvis aktiviteter.csv ikke finnes, opprettes filen automatisk. Programmet viser en forståelig melding og fortsetter med en tom aktivitetsliste.
+Ved første oppstart, hvis aktiviteter.csv ikke finnes, opprettes filen automatisk. 
+Programmet viser en melding og fortsetter med en tom aktivitetsliste.
 
 Menyvalg:
 
@@ -164,7 +147,9 @@ CSV er valgt som datafil fordi det er et enkelt tekstformat og passer godt til a
 
 Nye aktiviteter får status planned.
 
-Programmet lagrer ikke automatisk etter hvert valg. Brukeren lagrer og leser data tilbake med menyvalg 7. Dette gjør lagring og innlesing tydelig som en del av programflyten.
+Programmet lagrer ikke automatisk etter hvert valg. 
+Brukeren lagrer og leser data tilbake med menyvalg 7. 
+Dette gjør lagring og innlesing tydelig som en del av programflyten.
 
 Ved ugyldig input stopper ikke programmet. Brukeren får en forklaring og får prøve på nytt.
 
@@ -172,201 +157,48 @@ Ved ugyldig input stopper ikke programmet. Brukeren får en forklaring og får p
 TESTING
 
 Test 1 – registrere aktivitet
-
-Input:
 Tittel: Python
 Kategori: Programmering
 Dato: 18.09.2026
 Estimert tid: 90
-
 Forventet:
 Aktiviteten registreres med status planned og vises i aktivitetslisten.
-
-Resultat:
-Godkjent.
-
+Resultat: Godkjent.
 
 Test 2 – tomt tekstfelt
-
-Input:
 Trykk Enter som tittel.
-
-Forventet:
-Programmet viser feilmelding og spør etter tittel på nytt.
-
-Resultat:
-Godkjent.
-
+Forventet: Programmet viser feilmelding og spør etter tittel på nytt.
+Resultat: Godkjent.
 
 Test 3 – ugyldig dato
-
-Input:
-31.02.2026
-
-Forventet:
-Programmet viser feilmelding og spør etter dato på nytt.
-
-Resultat:
-Godkjent.
-
+Input:31.02.2026
+Forventet: Programmet viser feilmelding og spør etter dato på nytt.
+Resultat: Godkjent.
 
 Test 4 – ugyldig varighet
-
-Input:
-abc
-
-Forventet:
-Programmet viser feilmelding og spør etter et positivt heltall.
-
-Resultat:
-Godkjent.
-
+Input: abc
+Forventet: Programmet viser feilmelding og spør etter et positivt heltall.
+Resultat: Godkjent.
 
 Test 5 – null og negativ varighet
-
-Input:
-0
-eller
--20
-
-Forventet:
-Programmet viser feilmelding og spør etter positiv varighet.
-
-Resultat:
-Godkjent.
-
-
-Test 6 – ugyldig menyvalg
-
-Input:
-9
-
-Forventet:
-Programmet viser feilmelding og viser menyen på nytt.
-
-Resultat:
-Godkjent.
-
-
-Test 7 – filtrere kategori
-
-Registrer aktiviteter i forskjellige kategorier og velg menyvalg 2.
-
-Forventet:
-Bare aktiviteter som passer den innskrevne kategorien vises.
-
-Resultat:
-Godkjent.
-
-
-Test 8 – filtrere status
-
-Marker en aktivitet som fullført og velg menyvalg 3.
-
-Forventet:
-Aktiviteter med valgt status vises.
-
-Resultat:
-Godkjent.
-
-
-Test 9 – sortere
-
-Registrer aktiviteter med forskjellige datoer og varigheter og velg menyvalg 4.
-
-Forventet:
-Ved valg 1 sorteres datoene med eldste først.
-Ved valg 2 sorteres varighet med lengst først.
-
-Resultat:
-Godkjent.
-
-
-Test 10 – markere fullført
-
-Velg menyvalg 5 og velg en planlagt aktivitet.
-
-Forventet:
-Status endres fra planned til completed.
-
-Resultat:
-Godkjent.
-
-
-Test 11 – statistikk
-
-Registrer flere aktiviteter med kjente varigheter og marker noen som fullført. Velg menyvalg 6.
-
-Forventet:
-Totalt antall aktiviteter, samlet estimert tid og antall fullførte vises korrekt.
-
-Resultat:
-Godkjent.
-
-
-Test 12 – lagre og lese
-
-Registrer aktiviteter og velg menyvalg 7.
-
-Forventet:
-Aktivitetene skrives til aktiviteter.csv og leses deretter inn igjen.
-
-Resultat:
-Godkjent.
-
-
-Test 13 – manglende datafil
-
-Slett aktiviteter.csv før oppstart.
-
-Forventet:
-Programmet oppretter en ny tom datafil, viser en melding i terminalen og fortsetter med tom aktivitetsliste.
-
-Resultat:
-Godkjent.
-
-
-Test 14 – ugyldig rad i datafil
-
-Legg inn en CSV-rad med ugyldig dato, negativ varighet eller ugyldig status.
-
-Forventet:
-Programmet viser hvilken rad som hoppes over og fortsetter med resten av dataene.
-
-Resultat:
-Godkjent.
-
-
-Test 15 – data beholdes etter ny kjøring
-
-Lagre aktiviteter, avslutt programmet, start det på nytt og velg menyvalg 1 eller 3.
-
-Forventet:
-De tidligere lagrede aktivitetene er tilgjengelige.
-
-Resultat:
-Godkjent.
+Input: 0 eller -20
+Forventet: Programmet viser feilmelding og spør etter positiv varighet.
+Resultat: Godkjent.
 
 
 KJENTE BEGRENSNINGER
 
 Programmet har ikke funksjon for å slette eller redigere en aktivitet.
-
 Programmet bruker én lokal CSV-fil.
-
 Programmet er laget for enkel bruk fra terminalen.
 
 
 MULIGE FORBEDRINGER
 
 Det kan legges til funksjon for å redigere og slette aktiviteter.
-
 Det kan legges til søk etter aktivitetstittel.
-
 Det kan legges til filtrering på flere kriterier samtidig.
-
 Det kan legges til automatisk lagring etter endringer.
-
 Det kan legges til bedre visning av dato og tid.
 
 
@@ -381,44 +213,3 @@ Offisiell dokumentasjon for datetime:
 https://docs.python.org/3/library/datetime.html
 
 
-OPPFYLLELSE AV OPPGAVETEKSTEN
-
-Programmet har:
-
-En klasse som heter Aktivitet.
-Attributtene title, category, date, estimated_minutes og status.
-Minst én metode i Aktivitet-klassen.
-Flere hensiktsmessige funksjoner i tillegg til klassemetoden.
-En liste som inneholder aktivitetene.
-En nummerert meny som vises på nytt etter hvert valg.
-Registrering og visning av aktiviteter.
-Filtrering på kategori.
-Filtrering på status.
-Sortering etter dato eller varighet.
-Mulighet til å markere aktiviteter som completed.
-Statistikk for antall aktiviteter, samlet estimert tid og antall fullførte.
-Lagring til datafil og innlesing igjen.
-Opprettelse av datafil ved første oppstart dersom den mangler.
-Validering av menyvalg, tom tekst, dato og varighet.
-Forståelige feilmeldinger.
-Dokumentasjon med valg, tester, kjente begrensninger og forbedringsmuligheter.
-
-
-MERK OM GIT
-
-Oppgaven krever Git og flere meningsfulle commits. Filen GIT-OPPSKRIFT.txt inneholder et forslag til commitrekkefølge.
-
-Git-arbeidsflyten bør gjøres i studentens eget repository:
-
-git clone <repository>
-git add oppgave-5.py aktiviteter.csv README.md
-git commit -m "Lag aktivitet og grunnmeny"
-git add .
-git commit -m "Legg til filtrering, sortering og statistikk"
-git add .
-git commit -m "Legg til CSV-lagring og feilhåndtering"
-git add .
-git commit -m "Oppdater tester og dokumentasjon"
-git push
-
-Commit-meldingene må tilpasses det som faktisk er gjort i prosjektet.

@@ -1,7 +1,31 @@
-Oppgave 2
-Måtte bruke ChatGPT for å for å:
--  Finne ut hvordan jeg skulle starte
-- Lage en bra base
-- Sortere etter varighet funksjon
-- Samt generell oppbygning av et "stort program"
+Oppgave 2 – Studieøkter
 
+BESKRIVELSE
+
+Dette programmet brukes til å registrere og holde oversikt over studieøkter.
+
+Programmet lar brukeren:
+
+1. Registrere en ny studieøkt
+2. Vise alle studieøkter
+3. Vise studieøkter som er fullført
+4. Søke etter ord i tema
+5. Sortere studieøkter etter varighet
+6. Vise samlet og gjennomsnittlig studietid
+7. Avslutte programmet
+
+
+Datastruktur
+
+Jeg har valgt å bruke en iste med dictionaries for å lagre studieøktene.
+Dette fordi det var en enkel måte å lagre både tekst og variabler på en fornuftig måte iht. oppgaven.
+
+Eksempel:
+
+sessions = [
+    {
+        "topic": "Python",
+        "duration_minutes": 60,
+        "status": "completed"
+    }
+]

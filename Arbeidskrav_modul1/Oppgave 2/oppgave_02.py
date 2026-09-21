@@ -1,4 +1,8 @@
-def registrer_studieokt(studieokter):
+# Oppgave 2
+
+# Starter med å definere noen funksjoner som jeg bruker senere.
+
+def Reg_study_session(sessions):
 
     print("\n---\n")
     topic = input("Hva skal du studere? ")
@@ -19,104 +23,108 @@ def registrer_studieokt(studieokter):
             else:
                 print("Ugyldig status!")
 
-    studieokter.append({
+    sessions.append({
         "topic": topic,
         "duration_minutes": duration_minutes,
         "status": status
     })
 
 
-def vis_alle_studieokter(studieokter):
-    for studieokt in studieokter:
+def Show_all_sessions(sessions):
+    for session in sessions:
         print("\n---\n")
-        print(f"Tema: {studieokt['topic']}")
-        print(f"Varighet: {studieokt['duration_minutes']}")
-        print(f"Status: {studieokt['status']}")
+        print(f"Tema: {session['topic']}")
+        print(f"Varighet: {session['duration_minutes']}")
+        print(f"Status: {session['status']}")
 
-def vis_fullforte_studieokter(studieokter):
-    for studieokt in studieokter:
-        if studieokt["status"] == "completed":
+def Show_completed_sessions(sessions):
+    for session in sessions:
+        if session["status"] == "completed":
             print("\n---\n")
-            print(f"Tema: {studieokt['topic']}")
-            print(f"Varighet: {studieokt['duration_minutes']}")
-            print(f"Status: {studieokt['status']}")
+            print(f"Tema: {session['topic']}")
+            print(f"Varighet: {session['duration_minutes']}")
+            print(f"Status: {session['status']}")
 
-def sok_i_tema(studieokter):
-    sokeord = input("Hva vil du søke etter? ")
-    for studieokt in studieokter:
-        if sokeord.lower() in studieokt["topic"].lower():
+def Search_subject(sessions):
+    keyword = input("Hva vil du søke etter? ")
+    for session in sessions:
+        if keyword.lower() in session["topic"].lower():
             print("\n---\n")
-            print(f"Tema: {studieokt['topic']}")
-            print(f"Varighet: {studieokt['duration_minutes']}")
-            print(f"Status: {studieokt['status']}")
+            print(f"Tema: {session['topic']}")
+            print(f"Varighet: {session['duration_minutes']}")
+            print(f"Status: {session['status']}")
 
-def sorter_etter_varighet(studieokter):
-    sorterte_okter = sorted(
-        studieokter,
-        key=lambda studieokt: studieokt["duration_minutes"],
+def Sort_by_duration(sessions):
+    sorted_sessions = sorted(
+        sessions,
+        key=lambda session: session["duration_minutes"],
         reverse=True
     )
 
-    for studieokt in sorterte_okter:
+    for sessions in sorted_sessions:
         print("\n---\n")
-        print(f"Tema: {studieokt['topic']}")
-        print(f"Varighet: {studieokt['duration_minutes']}")
-        print(f"Status: {studieokt['status']}")
+        print(f"Tema: {sessions['topic']}")
+        print(f"Varighet: {sessions['duration_minutes']}")
+        print(f"Status: {sessions['status']}")
 
 
-def vis_varighet_statistikk(studieokter):
-    fullforte = []
+def Show_duration_stats(sessions):
+    completed = []
 
-    for studieokt in studieokter:
-        if studieokt["status"] == "completed":
-            fullforte.append(studieokt)
+    for session in sessions:
+        if session["status"] == "completed":
+            completed.append(session)
 
-    if len(fullforte) == 0:
+    if len(completed) == 0:
         print("Ingen fullførte studieøkter.")
         return
 
-    total_varighet = 0
+    total_duration = 0
 
-    for studieokt in fullforte:
-        total_varighet = total_varighet + studieokt["duration_minutes"]
+    for session in completed:
+        total_duration = total_duration + session["duration_minutes"]
 
-    gjennomsnitt = total_varighet / len(fullforte)
+    average = total_duration / len(completed)
 
-    print(f"Samlet varighet: {total_varighet} minutter")
-    print(f"Gjennomsnittlig varighet: {gjennomsnitt:.1f} minutter")
+    print(f"Samlet varighet: {total_duration} minutter")
+    print(f"Gjennomsnittlig varighet: {average:.1f} minutter")
 
+# Sessions under er lagt inn for test. Litt ulike topics, duration og status.
 
-studieokter = []
+sessions = []
 
-studieokter.append({
+sessions.append({
     "topic": "Python",
     "duration_minutes": 60,
     "status": "completed"
 })
 
-studieokter.append({
+sessions.append({
     "topic": "C++",
     "duration_minutes": 120,
     "status": "planned"
 })
 
-studieokter.append({
+sessions.append({
     "topic": "SQL",
     "duration_minutes": 180,
     "status": "completed"
 })
 
-studieokter.append({
+sessions.append({
     "topic": "JAVA",
     "duration_minutes": 240,
     "status": "planned"
 })
 
-studieokter.append({
+sessions.append({
     "topic": "HTML",
     "duration_minutes": 300,
     "status": "completed"
 })
+
+
+# Selve programmet.
 
 while True:
     print("\n--- MENY ---")
@@ -130,28 +138,28 @@ while True:
     while True:
         # Leser inn valg
         try:
-            meny_valg = int(input("Velg: "))
+            menu_choice = int(input("Velg: "))
 
-            if meny_valg > 7 or meny_valg < 1:
+            if menu_choice > 7 or menu_choice < 1:
                 print("Error: Du må skrive inn et tall mellom 1 og 7")
             else:
                 break
         except ValueError:
             print("Error: Du må skrive inn et tall mellom 1 og 7")
 
-    if meny_valg == 1:
-        registrer_studieokt(studieokter)
-    elif meny_valg == 2:
-        vis_alle_studieokter(studieokter)
-    elif meny_valg == 3:
-        vis_fullforte_studieokter(studieokter)
-    elif meny_valg == 4:
-        sok_i_tema(studieokter)
-    elif meny_valg == 5:
-        sorter_etter_varighet(studieokter)
-    elif meny_valg == 6:
-        vis_varighet_statistikk(studieokter)
-    elif meny_valg == 7:
+    if menu_choice == 1:
+        Reg_study_session(sessions)
+    elif menu_choice == 2:
+        Show_all_sessions(sessions)
+    elif menu_choice == 3:
+        Show_completed_sessions(sessions)
+    elif menu_choice == 4:
+        Search_subject(sessions)
+    elif menu_choice == 5:
+        Sort_by_duration(sessions)
+    elif menu_choice == 6:
+        Show_duration_stats(sessions)
+    elif menu_choice == 7:
         print("Avslutter programmet.")
         break
 

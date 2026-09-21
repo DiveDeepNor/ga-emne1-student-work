@@ -1,3 +1,11 @@
 title,category,date,estimated_minutes,status
 Snørydding,arbeid,01.01.2026,60,planned
 Soling,Sommer,05.07.2026,120,planned
+Python,Programmering,18.09.2026,90,planned
+Trening,Helse,20.09.2026,60,completed
+Lesing,Studier,15.09.2026,45,completed
+SQL,Programmering,22.09.2026,120,planned
+Møte,Arbeid,19.09.2026,30,planned
+Dokumentasjon,Arbeid,25.09.2026,75,completed
+Feilsøking,arbeid,23.09.2026,120,completed
+Ansert feilsøking,Jobbing,23.09.2026,120,completed

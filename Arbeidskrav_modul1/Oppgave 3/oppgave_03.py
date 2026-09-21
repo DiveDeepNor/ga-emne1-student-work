@@ -1,91 +1,77 @@
 from datetime import datetime, timedelta
 
+# Oppgave 3
 
-# --------------------------------------------------
-# FUNKSJONER
-# --------------------------------------------------
-
-def les_dato(dato_tekst):
-    """Tar imot en dato som tekst på formatet dd.mm.åååå og returnerer datetime."""
-    dato = datetime.strptime(dato_tekst, "%d.%m.%Y")
-    return dato
+# Starter med å definere noen funksjoner som jeg bruker senere.
 
 
-def les_tidspunkt():
-    """Leser inn et gyldig starttidspunkt på formatet tt:mm."""
+def Read_date(date_text):
+    # Leser inn dato (dd.mm.åååå) og returnerer den.
+    date = datetime.strptime(date_text, "%d.%m.%Y")
+    return date
+
+
+def Read_time():
+    #Leser inn et gyldig starttidspunkt på (tt:mm).
     while True:
-        tidspunkt_tekst = input("Skriv inn starttidspunkt (tt:mm): ")
+        time_text = input("Skriv inn starttidspunkt (tt:mm): ")
 
         try:
-            tidspunkt = datetime.strptime(tidspunkt_tekst, "%H:%M")
-            return tidspunkt
+            time = datetime.strptime(time_text, "%H:%M")
+            return time
         except ValueError:
             print("Ugyldig tidspunkt! Bruk formatet tt:mm.")
 
 
-def kombiner_dato(dato, tidspunkt):
-    """Kombinerer dato og klokkeslett til ett datetime-objekt."""
+def Combine_date(dato, tidspunkt):
+    # Slår sammen dato og tid fra over til en felles variabel
     start = datetime.combine(dato.date(), tidspunkt.time())
     return start
 
 
-def beregn_slutt(start, minutter):
-    """Tar imot starttidspunkt og minutter og returnerer sluttidspunkt."""
-    slutt = start + timedelta(minutes=minutter)
-    return slutt
+def Calc_end(start, minutter):
+    # Ut fra start + minutter så returnere slutt
+    end = start + timedelta(minutes=minutter)
+    return end
 
 
-def dager_mellom(start, slutt):
-    """Returnerer positivt antall hele dager mellom to datoer."""
-    dager = abs((slutt - start).days)
-    return dager
+def Days_between(start, slutt):
+    # Beregner dager mellom og returnere det som et positivt tall
+    days = abs((slutt - start).days)
+    return days
 
 
-def sorter_datoer(datoer):
-    """Tar imot en liste med datoer og returnerer en kronologisk sortert liste."""
-    sorterte_datoer = sorted(datoer)
-    return sorterte_datoer
+def Sorted_date(datoer):
+    # Sorterer datoer ut fra en liste med datoer, returnerer en sortert liste
+    sorted_dates = sorted(datoer)
+    return sorted_dates
 
 
-# --------------------------------------------------
-# HOVEDPROGRAM
-# --------------------------------------------------
+# Selve programmet.
 
 print("\n--- PLANLEGGING AV STUDIEØKT ---")
 
-
-# --------------------------------------------------
-# STARTDATO
-# --------------------------------------------------
-
+# Start dato
 while True:
-    dato_tekst = input("Skriv inn dato (dd.mm.åååå): ")
+    date_text = input("Skriv inn dato (dd.mm.åååå): ")
 
     try:
-        start_dato = les_dato(dato_tekst)
+        start_date = Read_date(date_text)
         break
     except ValueError:
         print("Ugyldig dato! Bruk formatet dd.mm.åååå.")
 
 
-# --------------------------------------------------
-# STARTTIDSPUNKT
-# --------------------------------------------------
-
-start_tid = les_tidspunkt()
-
-start_tidspunkt = kombiner_dato(start_dato, start_tid)
+start_time = Read_time()
+start_date_time = Combine_date(start_date, start_time)
 
 
-# --------------------------------------------------
-# VARIGHET
-# --------------------------------------------------
-
+# Studie tid
 while True:
     try:
-        minutter = int(input("Hvor lenge skal du studere? "))
+        minutes = int(input("Hvor lenge skal du studere? "))
 
-        if minutter > 0:
+        if minutes > 0:
             break
         else:
             print("Varigheten må være et positivt heltall.")
@@ -93,77 +79,64 @@ while True:
     except ValueError:
         print("Du må skrive inn et heltall.")
 
-
-# --------------------------------------------------
-# BEREGN SLUTTID
-# --------------------------------------------------
-
-slutt_tidspunkt = beregn_slutt(start_tidspunkt, minutter)
+end_time = Calc_end(start_date_time, minutes)
 
 
-# --------------------------------------------------
-# ANDRE DATO
-# Brukes til funksjonen dager_mellom()
-# --------------------------------------------------
+
+# Dato 2, ref punkt om å regne dager mellom
 
 while True:
-    dato_2_tekst = input("Skriv inn en annen dato for å beregne dager mellom (dd.mm.åååå): ")
+    calc_date_text = input("Skriv inn en annen dato for å beregne dager mellom (dd.mm.åååå): ")
 
     try:
-        dato_2 = les_dato(dato_2_tekst)
+        calc_date = Read_date(calc_date_text)
         break
     except ValueError:
         print("Ugyldig dato! Bruk formatet dd.mm.åååå.")
 
 
-dager_i_mellom = dager_mellom(start_dato, dato_2)
+days_between = Days_between(start_date, calc_date)
 
 
-# --------------------------------------------------
-# FLERE DATOER TIL SORTERING
-# --------------------------------------------------
+# Dato 3, ref punkt om å ta imot en liste med datoer.
 
-datoer = []
+dates = []
 
 print("\n--- DATOER TIL SORTERING ---")
 print("Skriv inn flere datoer.")
 print("Trykk Enter uten tekst når du er ferdig.")
 
 while True:
-    dato_liste_tekst = input("Dato (dd.mm.åååå): ")
+    date_list_text = input("Dato (dd.mm.åååå): ")
 
     # Tom input avslutter innleggingen
-    if dato_liste_tekst == "":
+    if date_list_text == "":
         break
 
     try:
-        dato_liste = les_dato(dato_liste_tekst)
-        datoer.append(dato_liste)
+        date_list = Read_date(date_list_text)
+        dates.append(date_list)
 
     except ValueError:
         print("Ugyldig dato! Bruk formatet dd.mm.åååå.")
 
 
 # Sorter listen
-sorterte_datoer = sorter_datoer(datoer)
+sorted_dates = Sorted_date(dates)
 
 
-# --------------------------------------------------
-# RESULTATER
-# --------------------------------------------------
+# Resultat av oppgaven.
 
 print("\n--- RESULTATER ---")
 
-print(f"Start: {start_tidspunkt.strftime('%d.%m.%Y %H:%M')}")
-print(f"Slutt: {slutt_tidspunkt.strftime('%d.%m.%Y %H:%M')}")
-print(f"Varighet: {minutter} minutter")
-print(f"Dager mellom datoene: {dager_i_mellom}")
-
-
+print(f"Start: {start_date_time.strftime('%d.%m.%Y %H:%M')}")
+print(f"Slutt: {end_time.strftime('%d.%m.%Y %H:%M')}")
+print(f"Varighet: {minutes} minutter")
+print(f"Dager mellom datoene: {days_between}")
 print("\nSorterte datoer:")
 
-if len(sorterte_datoer) == 0:
+if len(sorted_dates) == 0:
     print("Ingen datoer ble lagt inn.")
 else:
-    for dato in sorterte_datoer:
+    for dato in sorted_dates:
         print(dato.strftime("%d.%m.%Y"))

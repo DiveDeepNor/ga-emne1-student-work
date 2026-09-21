@@ -1,13 +1,16 @@
 import csv
 from datetime import datetime
 
+# Oppgave 5
 
-DATAFIL = "aktiviteter.csv"
-DATOFORMAT = "%d.%m.%Y"
+# Leser inn CSV og format
+
+datafil = "aktiviteter.csv"
+date_format = "%d.%m.%Y"
 
 
-class Aktivitet:
-    """Representerer én aktivitet i aktivitetsplanleggeren."""
+class Activity:
+    # Representerer én aktivitet i aktivitetsplanleggeren
 
     def __init__(self, title, category, date, estimated_minutes, status="planned"):
         self.title = title
@@ -17,42 +20,42 @@ class Aktivitet:
         self.status = status
 
     def mark_completed(self):
-        """Markerer aktiviteten som fullført."""
+        # Markerer aktiviteten som fullført
         self.status = "completed"
 
 
-def les_tekst(prompt):
-    """Leser inn tekst og kontrollerer at feltet ikke er tomt."""
+def Read_text(prompt):
+    # Leser inn tekst og sjekker at feltet ikke er tomt
     while True:
-        tekst = input(prompt).strip()
+        text = input(prompt).strip()
 
-        if tekst:
-            return tekst
+        if text:
+            return text
 
         print("Feltet kan ikke være tomt. Prøv igjen.")
 
 
-def les_dato(prompt):
-    """Leser inn en dato på formatet dd.mm.åååå."""
+def Read_date(prompt):
+    # Leser inn en dato på (dd.mm.åååå)
     while True:
-        dato_tekst = input(prompt).strip()
+        date_text = input(prompt).strip()
 
         try:
-            return datetime.strptime(dato_tekst, DATOFORMAT)
+            return datetime.strptime(date_text, date_format)
         except ValueError:
             print("Ugyldig dato. Bruk formatet dd.mm.åååå.")
 
 
-def les_positivt_heltall(prompt):
-    """Leser inn et positivt heltall."""
+def Read_pos_integer(prompt):
+    # Leser inn et positivt heltall
     while True:
-        verdi_tekst = input(prompt).strip()
+        value_text = input(prompt).strip()
 
         try:
-            verdi = int(verdi_tekst)
+            value = int(value_text)
 
-            if verdi > 0:
-                return verdi
+            if value > 0:
+                return value
 
             print("Verdien må være et positivt heltall.")
 
@@ -60,8 +63,8 @@ def les_positivt_heltall(prompt):
             print("Du må skrive inn et positivt heltall.")
 
 
-def les_status(prompt="Status (planned/completed): "):
-    """Leser inn en gyldig status."""
+def Read_status(prompt="Status (planned/completed): "):
+    # Leser inn en status og sjekker om den er gyldig.
     while True:
         status = input(prompt).strip().lower()
 
@@ -71,142 +74,142 @@ def les_status(prompt="Status (planned/completed): "):
         print("Ugyldig status. Skriv planned eller completed.")
 
 
-def vis_aktiviteter(aktiviteter):
-    """Viser aktiviteter på en oversiktlig måte."""
-    if not aktiviteter:
+def Show_activity(activity):
+    # Viser aktiviteter på en oversiktlig måte.
+    if not activity:
         print("Ingen aktiviteter å vise.")
         return
 
-    for nummer, aktivitet in enumerate(aktiviteter, start=1):
+    for number, activity in enumerate(activity, start=1):
         print(
-            f"{nummer}. {aktivitet.title} | "
-            f"{aktivitet.category} | "
-            f"{aktivitet.date.strftime(DATOFORMAT)} | "
-            f"{aktivitet.estimated_minutes} min | "
-            f"{aktivitet.status}"
+            f"{number}. {activity.title} | "
+            f"{activity.category} | "
+            f"{activity.date.strftime(date_format)} | "
+            f"{activity.estimated_minutes} min | "
+            f"{activity.status}"
         )
 
 
-def registrer_aktivitet(aktiviteter):
-    """Registrerer en ny aktivitet og viser aktivitetslisten."""
+def Register_activity(activitys):
+    # Registrerer ny aktivitet og viser aktivitetslisten
     print("\n--- REGISTRER AKTIVITET ---")
 
-    title = les_tekst("Tittel: ")
-    category = les_tekst("Kategori: ")
-    date = les_dato("Dato (dd.mm.åååå): ")
-    estimated_minutes = les_positivt_heltall("Estimert tid i minutter: ")
+    title = Read_text("Tittel: ")
+    category = Read_text("Kategori: ")
+    date = Read_date("Dato (dd.mm.åååå): ")
+    estimated_minutes = Read_pos_integer("Estimert tid i minutter: ")
 
-    aktivitet = Aktivitet(
+    activity = Activity(
         title,
         category,
         date,
         estimated_minutes
     )
 
-    aktiviteter.append(aktivitet)
+    activitys.append(activity)
 
     print("Aktiviteten er registrert.")
     print("\n--- AKTIVITETER ---")
-    vis_aktiviteter(aktiviteter)
+    Show_activity(activitys)
 
 
-def filtrer_kategori(aktiviteter):
-    """Søker etter tekst i aktivitetskategorien."""
-    if not aktiviteter:
+def Filt_categories(activitys):
+    # Søker etter tekst i aktivitetskategorien, for å filtrere på denne
+    if not activitys:
         print("Ingen aktiviteter registrert.")
         return
 
-    soketekst = les_tekst("Skriv inn kategori du vil søke etter: ").lower()
+    keyword = Read_text("Skriv inn kategori du vil søke etter: ").lower()
 
-    resultat = [
-        aktivitet
-        for aktivitet in aktiviteter
-        if soketekst in aktivitet.category.lower()
+    result = [
+        activity
+        for activity in activitys
+        if keyword in activity.category.lower()
     ]
 
-    if not resultat:
+    if not result:
         print("Ingen aktiviteter funnet i denne kategorien.")
         return
 
     print("\n--- RESULTAT ---")
-    vis_aktiviteter(resultat)
+    Show_activity(result)
 
 
-def filtrer_status(aktiviteter):
-    """Viser aktiviteter med valgt status."""
-    if not aktiviteter:
+def Filt_status(activitys):
+    # Viser aktiviteter med status man ønsker
+    if not activitys:
         print("Ingen aktiviteter registrert.")
         return
 
-    status = les_status()
+    status = Read_status()
 
-    resultat = [
-        aktivitet
-        for aktivitet in aktiviteter
-        if aktivitet.status == status
+    result = [
+        activity
+        for activity in activitys
+        if activity.status == status
     ]
 
-    if not resultat:
+    if not result:
         print(f"Ingen aktiviteter med status '{status}'.")
         return
 
     print("\n--- RESULTAT ---")
-    vis_aktiviteter(resultat)
+    Show_activity(result)
 
 
-def sorter_aktiviteter(aktiviteter):
-    """Sorterer aktiviteter etter dato eller estimert varighet."""
-    if not aktiviteter:
+def Sort_activitys(activitys):
+    # Sorterer aktiviteter etter dato eller estimert varighet
+    if not activitys:
         print("Ingen aktiviteter registrert.")
         return
 
     while True:
-        valg = input(
+        choice = input(
             "Sorter etter 1 = dato (eldste først), "
             "2 = varighet (lengst først): "
         ).strip()
 
-        if valg in ("1", "2"):
+        if choice in ("1", "2"):
             break
 
         print("Ugyldig valg. Skriv 1 eller 2.")
 
-    if valg == "1":
-        sorterte = sorted(aktiviteter, key=lambda aktivitet: aktivitet.date)
+    if choice == "1":
+        sorted_activitys = sorted(activitys, key=lambda activity: activity.date)
     else:
-        sorterte = sorted(
-            aktiviteter,
-            key=lambda aktivitet: aktivitet.estimated_minutes,
+        sorted_activitys = sorted(
+            activitys,
+            key=lambda activity: activity.estimated_minutes,
             reverse=True
         )
 
     print("\n--- SORTERTE AKTIVITETER ---")
-    vis_aktiviteter(sorterte)
+    Show_activity(sorted_activitys)
 
 
-def marker_fullfort(aktiviteter):
-    """Lar brukeren markere en planlagt aktivitet som fullført."""
-    planlagte = [
-        aktivitet
-        for aktivitet in aktiviteter
-        if aktivitet.status == "planned"
+def Mark_completed(activitys):
+    # Sette en planlagt aktivitet som fullført
+    planed = [
+        activity
+        for activity in activitys
+        if activity.status == "planned"
     ]
 
-    if not planlagte:
+    if not planed:
         print("Ingen planlagte aktiviteter å markere som fullført.")
         return
 
     print("\n--- PLANLAGTE AKTIVITETER ---")
-    vis_aktiviteter(planlagte)
+    Show_activity(planed)
 
     while True:
-        valg = input("Velg nummeret på aktiviteten som skal fullføres: ").strip()
+        choice = input("Velg nummeret på aktiviteten som skal fullføres: ").strip()
 
         try:
-            nummer = int(valg)
+            number = int(choice)
 
-            if 1 <= nummer <= len(planlagte):
-                planlagte[nummer - 1].mark_completed()
+            if 1 <= number <= len(planed):
+                planed[number - 1].mark_completed()
                 print("Aktiviteten er markert som fullført.")
                 return
 
@@ -216,30 +219,30 @@ def marker_fullfort(aktiviteter):
             print("Du må skrive inn et helt tall.")
 
 
-def vis_statistikk(aktiviteter):
-    """Viser antall aktiviteter, samlet estimert tid og antall fullførte."""
-    antall_aktiviteter = len(aktiviteter)
+def Show_stats(activitys):
+    # Viser antall aktiviteter, samlet estimert tid og antall fullførte
+    number_of_activities = len(activitys)
 
-    samlet_tid = sum(
-        aktivitet.estimated_minutes
-        for aktivitet in aktiviteter
+    total_time = sum(
+        activity.estimated_minutes
+        for activity in activitys
     )
 
-    antall_fullforte = sum(
+    number_completed = sum(
         1
-        for aktivitet in aktiviteter
-        if aktivitet.status == "completed"
+        for activity in activitys
+        if activity.status == "completed"
     )
 
     print("\n--- STATISTIKK ---")
-    print(f"Antall aktiviteter: {antall_aktiviteter}")
-    print(f"Samlet estimert tid: {samlet_tid} minutter")
-    print(f"Antall fullførte: {antall_fullforte}")
+    print(f"Antall aktiviteter: {number_of_activities}")
+    print(f"Samlet estimert tid: {total_time} minutter")
+    print(f"Antall fullførte: {number_completed}")
 
 
-def opprett_datafil():
-    """Oppretter en tom CSV-fil med riktig overskriftsrad."""
-    with open(DATAFIL, "w", newline="", encoding="utf-8") as fil:
+def Create_datafile():
+    # Lager en tom CSV-fil med riktig overskriftsrader
+    with open(datafil, "w", newline="", encoding="utf-8") as fil:
         writer = csv.DictWriter(
             fil,
             fieldnames=[
@@ -253,24 +256,24 @@ def opprett_datafil():
         writer.writeheader()
 
 
-def aktivitet_til_rad(aktivitet):
-    """Gjør en Aktivitet om til en dictionary for CSV."""
+def Activity_to_row(activity):
+    # Gjør en aktivitet om til en dictionary for CSV filen
     return {
-        "title": aktivitet.title,
-        "category": aktivitet.category,
-        "date": aktivitet.date.strftime(DATOFORMAT),
-        "estimated_minutes": str(aktivitet.estimated_minutes),
-        "status": aktivitet.status
+        "title": activity.title,
+        "category": activity.category,
+        "date": activity.date.strftime(date_format),
+        "estimated_minutes": str(activity.estimated_minutes),
+        "status": activity.status
     }
 
 
-def rad_til_aktivitet(rad):
-    """Gjør en CSV-rad om til en Aktivitet."""
-    title = (rad.get("title") or "").strip()
-    category = (rad.get("category") or "").strip()
-    date_tekst = (rad.get("date") or "").strip()
-    minutes_tekst = (rad.get("estimated_minutes") or "").strip()
-    status = (rad.get("status") or "").strip().lower()
+def Row_to_activity(row):
+    # Gjør en rad om til en aktivitet
+    title = (row.get("title") or "").strip()
+    category = (row.get("category") or "").strip()
+    date_tekst = (row.get("date") or "").strip()
+    minutes_tekst = (row.get("estimated_minutes") or "").strip()
+    status = (row.get("status") or "").strip().lower()
 
     if not title:
         raise ValueError("tittel mangler")
@@ -279,7 +282,7 @@ def rad_til_aktivitet(rad):
         raise ValueError("kategori mangler")
 
     try:
-        date = datetime.strptime(date_tekst, DATOFORMAT)
+        date = datetime.strptime(date_tekst, date_format)
     except ValueError:
         raise ValueError("ugyldig dato")
 
@@ -294,7 +297,7 @@ def rad_til_aktivitet(rad):
     if status not in ("planned", "completed"):
         raise ValueError("status må være planned eller completed")
 
-    return Aktivitet(
+    return Activity(
         title,
         category,
         date,
@@ -303,10 +306,10 @@ def rad_til_aktivitet(rad):
     )
 
 
-def lagre_aktiviteter(aktiviteter):
-    """Lagrer alle aktiviteter til CSV-filen."""
+def Save_activity(activitys):
+    # Lagrer alle aktiviteter til CSV filen
     try:
-        with open(DATAFIL, "w", newline="", encoding="utf-8") as fil:
+        with open(datafil, "w", newline="", encoding="utf-8") as fil:
             writer = csv.DictWriter(
                 fil,
                 fieldnames=[
@@ -320,8 +323,8 @@ def lagre_aktiviteter(aktiviteter):
 
             writer.writeheader()
 
-            for aktivitet in aktiviteter:
-                writer.writerow(aktivitet_til_rad(aktivitet))
+            for activity in activitys:
+                writer.writerow(Activity_to_row(activity))
 
         return True
 
@@ -330,13 +333,13 @@ def lagre_aktiviteter(aktiviteter):
         return False
 
 
-def les_aktiviteter():
-    """Leser aktiviteter fra CSV-filen."""
+def Read_activity():
+    # Leser aktiviteter fra CSV filen
     try:
-        with open(DATAFIL, "r", newline="", encoding="utf-8") as fil:
+        with open(datafil, "r", newline="", encoding="utf-8") as fil:
             reader = csv.DictReader(fil)
 
-            forventede_felter = {
+            expexted_fields = {
                 "title",
                 "category",
                 "date",
@@ -344,22 +347,22 @@ def les_aktiviteter():
                 "status"
             }
 
-            if reader.fieldnames is None or not forventede_felter.issubset(
+            if reader.fieldnames is None or not expexted_fields.issubset(
                 set(reader.fieldnames)
             ):
                 print("Datafilen har feil format. Starter med en tom samling.")
                 return []
 
-            aktiviteter = []
+            activitys = []
 
-            for rad_nr, rad in enumerate(reader, start=2):
+            for row_nr, row in enumerate(reader, start=2):
                 try:
-                    aktivitet = rad_til_aktivitet(rad)
-                    aktiviteter.append(aktivitet)
+                    activity = Row_to_activity(row)
+                    activitys.append(activity)
                 except ValueError as error:
-                    print(f"Rad {rad_nr} ble hoppet over: {error}.")
+                    print(f"Rad {row_nr} ble hoppet over: {error}.")
 
-            return aktiviteter
+            return activitys
 
     except (OSError, csv.Error) as error:
         print(f"Kunne ikke lese datafilen: {error}")
@@ -367,21 +370,21 @@ def les_aktiviteter():
         return []
 
 
-def lagre_og_les_aktiviteter(aktiviteter):
-    """Lagrer aktivitetene og leser dem inn igjen."""
-    if not lagre_aktiviteter(aktiviteter):
-        return aktiviteter
+def Save_and_read_activitys(activitys):
+    # Lagrer aktivitetene og leser dem inn igjen
+    if not Save_activity(activitys):
+        return activitys
 
     print("Aktivitetene er lagret til datafilen.")
 
-    innlastede_aktiviteter = les_aktiviteter()
+    loaded_activities = Read_activity()
     print("Aktivitetene er lest inn igjen fra datafilen.")
 
-    return innlastede_aktiviteter
+    return loaded_activities
 
 
-def vis_meny():
-    """Viser hovedmenyen."""
+def Show_menu():
+    # Viser hovedmenyen
     print("\n--- MENY ---")
     print("1. Registrere og vise aktiviteter")
     print("2. Søke etter eller filtrere kategori")
@@ -393,61 +396,61 @@ def vis_meny():
     print("8. Avslutte programmet")
 
 
-def les_menyvalg():
-    """Leser og validerer menyvalget."""
+def Read_menu_choice():
+    # Leser og validerer menyvalget
     while True:
-        valg = input("Velg et alternativ: ").strip()
+        choice = input("Velg et alternativ: ").strip()
 
-        if valg in ("1", "2", "3", "4", "5", "6", "7", "8"):
-            return valg
+        if choice in ("1", "2", "3", "4", "5", "6", "7", "8"):
+            return choice
 
         print("Ugyldig menyvalg. Skriv et tall mellom 1 og 8.")
 
 
-def main():
+def Main():
     try:
-        open(DATAFIL, "r", encoding="utf-8").close()
+        open(datafil, "r", encoding="utf-8").close()
     except FileNotFoundError:
         try:
-            opprett_datafil()
+            Create_datafile()
             print(
-                f"Datafilen {DATAFIL} fantes ikke. "
+                f"Datafilen {datafil} fantes ikke. "
                 "En ny tom datafil er opprettet."
             )
         except OSError as error:
             print(f"Kunne ikke opprette datafilen: {error}")
 
-    aktiviteter = les_aktiviteter()
+    activitys = Read_activity()
 
     while True:
-        vis_meny()
-        valg = les_menyvalg()
+        Show_menu()
+        choice = Read_menu_choice()
 
-        if valg == "1":
-            registrer_aktivitet(aktiviteter)
+        if choice == "1":
+            Register_activity(activitys)
 
-        elif valg == "2":
-            filtrer_kategori(aktiviteter)
+        elif choice == "2":
+            Filt_categories(activitys)
 
-        elif valg == "3":
-            filtrer_status(aktiviteter)
+        elif choice == "3":
+            Filt_status(activitys)
 
-        elif valg == "4":
-            sorter_aktiviteter(aktiviteter)
+        elif choice == "4":
+            Sort_activitys(activitys)
 
-        elif valg == "5":
-            marker_fullfort(aktiviteter)
+        elif choice == "5":
+            Mark_completed(activitys)
 
-        elif valg == "6":
-            vis_statistikk(aktiviteter)
+        elif choice == "6":
+            Show_stats(activitys)
 
-        elif valg == "7":
-            aktiviteter = lagre_og_les_aktiviteter(aktiviteter)
+        elif choice == "7":
+            activitys = Save_and_read_activitys(activitys)
 
-        elif valg == "8":
+        elif choice == "8":
             print("Avslutter programmet.")
             break
 
 
 if __name__ == "__main__":
-    main()
+    Main()
