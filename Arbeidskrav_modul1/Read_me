@@ -8,8 +8,8 @@ Har sparret endel med en kollega, samt sett noen videor og brukt https://www.w3s
 Har også brukt ChatGPT endel for å komme riktig igang, samt validering av koden etterpå og skrive en read_me fil som jeg kan gjennomgå og justere på.
 Kommandoer jeg har brukt i ChatGPT (Har lest inn oppgaven og skrevet):
 
-- Hvordan er beste start på et slikt program?
-- Bør jeg bruke list tupple eller andre funksjoner her?
+- Hvordan er beste start på en slik oppgave?
+- Bør jeg bruke list, tupple eller andre funksjoner her?
 - Hvordan oppretter jeg en ny CSV fil fra Python?
 - Kan du lage en read_me fil basert på denne teksten? (så mine kladde kommentarer, samt koden)
 - Kan du validerer denne koden opp mot oppgavetekst og se at jeg har fått med alt?
