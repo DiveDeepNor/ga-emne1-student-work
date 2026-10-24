@@ -385,3 +385,37 @@ WHERE customer_id IN (
     FROM customers
     WHERE email = 'test.name@test.no'
 );
+
+
+
+   /* Deloppgave 9 */
+    /*  Bruk en transaksjon */
+
+/* Legger inn bestilling og trekker fra på lagerhold */
+BEGIN;
+
+insert into orders (customer_id, product_id, quantity, order_date, stats) VALUES
+                    (1, 1, 1, current_date, 'Delivered');
+update products
+set stock = stock - 1
+where product_id = 1;
+
+select * from products
+where product_id = 1;
+
+
+
+/* Sjekker lagerhold */
+SELECT *
+FROM products
+WHERE product_id = 1;
+
+/* Sjekker at den nye bestillingen ligger inne */
+SELECT *
+FROM orders
+WHERE customer_id = 1
+  AND product_id = 1
+ORDER BY order_id DESC
+LIMIT 1;
+
+COMMIT;
