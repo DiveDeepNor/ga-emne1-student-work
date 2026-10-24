@@ -1,4 +1,4 @@
-/* Oppgave 1 */
+/* Oppgave 1*/
 
    /* Lager første Databasen */
 
@@ -58,7 +58,7 @@ USE nettbutikk;
     from orders;
 
 
-/* Oppgave 2 */
+/* Oppgave 2*/
 
     /* Legger inn products */
 insert into products (product_name, category, price, stock) values
