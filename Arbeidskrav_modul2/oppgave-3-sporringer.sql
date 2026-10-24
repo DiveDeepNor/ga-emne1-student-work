@@ -195,3 +195,193 @@ LIMIT 1;
        Brukte denne til å begrense til maks 1 rad etter at jeg hadde
        beregnet frem samlet bestillingsverdi på de ulike kundene*/
 
+
+/* Oppgave 4 */
+
+   /* Deloppgave 1 */
+    /*  Registrer en ny kunde */
+insert into customers (first_name, last_name, email, city, registered_date) values
+    ('Henrik', 'Solberg', 'henrik.solberg@example.com' , 'Lillehammer', '2026-10-24')
+
+select * from customers
+where email = 'henrik.solberg@example.com'
+
+   /* Deloppgave 2 */
+    /*  Registrer flere produkter */
+
+insert into products (product_name, category, price, stock) values
+                        ('USB-C cable', 'Accessories', 199.00, 50),
+                        ('Docking station', 'Accessories', 1899.00, 12),
+                        ('External SSD 2TB', 'Storage', 1999.00, 8)
+
+select * from products
+where product_name IN ('USB-C cable', 'Docking station', 'External SSD 2TB')
+
+
+   /* Deloppgave 2 */
+    /*  Registrer flere produkter */
+
+insert into products (product_name, category, price, stock) values
+                        ('USB-C cable', 'Accessories', 199.00, 50),
+                        ('Docking station', 'Accessories', 1899.00, 12),
+                        ('External SSD 2TB', 'Storage', 1999.00, 8)
+
+select * from products
+where product_name IN ('USB-C cable', 'Docking station', 'External SSD 2TB')
+
+
+   /* Deloppgave 3 */
+    /*  Registrer nye bestillinger */
+
+insert into orders (customer_id, product_id, quantity, order_date, stats)
+values (
+        (select customer_id from customers where email = 'henrik.solberg@example.com'),
+        (select product_id from products where product_name = 'Docking station'),
+        1,   CURRENT_DATE, 'ordered'),
+        (
+         (select customer_id from customers where email = 'henrik.solberg@example.com'),
+         (select product_id from products where product_name = 'USB-C cable'),
+         2,   CURRENT_DATE, 'ordered'),
+       (
+           (select customer_id from customers where email = 'henrik.solberg@example.com'),
+           (select product_id from products where product_name = 'External SSD 2TB'),
+           1,   CURRENT_DATE, 'ordered');
+
+SELECT
+    c.first_name,
+    c.last_name,
+    p.product_name,
+    o.quantity,
+    o.order_date,
+    o.stats
+FROM orders AS o
+         JOIN customers AS c
+              ON o.customer_id = c.customer_id
+         JOIN products AS p
+              ON o.product_id = p.product_id
+WHERE c.email = 'henrik.solberg@example.com';
+
+   /* Deloppgave 4 */
+    /*  Prisendring */
+
+SELECT * from products
+where category = 'Accessories';
+
+update products
+set price = price * 1.08
+where category = 'Accessories';
+
+
+SELECT * from products
+where category = 'Accessories';
+
+   /* Deloppgave 5 */
+    /*  Lagerpåfylling */
+
+SELECT * from products
+where stock < 15;
+
+update products
+set stock = stock + 20
+where stock < 15;
+
+    /*  Tok en manuell sjekk for å se at de ble økt. Tok bare ut product_name jeg fant i første spøøring */
+SELECT *
+FROM products
+WHERE product_name IN (
+                       'Laptop Pro 15',
+                       '27-inch monitor',
+                      'Bluetooth speaker',
+                      'Docking station',
+                      'External SSD 2TB'
+    );
+
+   /* Deloppgave 6 */
+    /*  Endre flere verdier */
+
+select * from products
+where product_name = 'Gaming headset';
+
+update products
+set price = price * 1.15,
+    stock = stock + 10
+where product_name = 'Gaming headset';
+
+select * from products
+where product_name = 'Gaming headset';
+
+   /* Deloppgave 7 */
+    /*  Oppdater ordrestatus */
+
+select * from orders
+where stats = 'Shipped' and order_date  < '2025-08-10';
+
+update orders
+set stats = 'Delivered'
+where stats = 'Shipped' and order_date  < '2025-08-10';
+
+select * from orders
+where stats = 'Delivered' and order_date  < '2025-08-10';
+
+   /* Deloppgave 8 */
+    /*  Opprett og slett testdata */
+
+/* Oppretter test data. Kunde og produkt først, så ordre. Da kunde og produkt er fremmednøkler i ordre*/
+insert into customers (first_name, last_name, email, city, registered_date) values
+                        ('Test', 'Name', 'test.name@test.no', 'TestCity', current_date );
+
+insert into products (product_name, category, price, stock) VALUES
+                        ('Testproduct', 'Testing', 999.99, 99);
+
+insert into orders (customer_id, product_id, quantity, order_date, stats) VALUES
+                    ((select customer_id from customers where email = 'test.name@test.no'),
+                     (select product_id from products where product_name = 'Testproduct'),
+                     1, current_date, 'Shipped'
+                    );
+
+/* Sjekker at kunden, produkt og ordre eksisterer*/
+SELECT
+    c.first_name,
+    c.last_name,
+    c.email,
+    p.product_name,
+    o.quantity,
+    o.order_date,
+    o.stats
+FROM orders AS o
+         JOIN customers AS c
+              ON o.customer_id = c.customer_id
+         JOIN products AS p
+              ON o.product_id = p.product_id
+WHERE c.email = 'test.name@test.no'
+  AND p.product_name = 'Testproduct';
+
+
+
+/* Sletter først ordre, så produkt og kunden av samme grunn som når jeg opprettet disse.*/
+delete from orders
+where customer_id = (select customer_id from customers where email = 'test.name@test.no');
+
+delete from products
+where product_name = 'Testproduct';
+
+delete from customers
+where email = 'test.name@test.no';
+
+
+/* Sjekker at alt er slettet.*/
+SELECT *
+FROM customers
+WHERE email = 'test.name@test.no';
+
+SELECT *
+FROM products
+WHERE product_name = 'Testproduct';
+
+SELECT *
+FROM orders
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM customers
+    WHERE email = 'test.name@test.no'
+);
