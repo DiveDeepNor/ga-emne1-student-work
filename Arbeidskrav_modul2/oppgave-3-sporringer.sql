@@ -218,18 +218,6 @@ select * from products
 where product_name IN ('USB-C cable', 'Docking station', 'External SSD 2TB')
 
 
-   /* Deloppgave 2 */
-    /*  Registrer flere produkter */
-
-insert into products (product_name, category, price, stock) values
-                        ('USB-C cable', 'Accessories', 199.00, 50),
-                        ('Docking station', 'Accessories', 1899.00, 12),
-                        ('External SSD 2TB', 'Storage', 1999.00, 8)
-
-select * from products
-where product_name IN ('USB-C cable', 'Docking station', 'External SSD 2TB')
-
-
    /* Deloppgave 3 */
     /*  Registrer nye bestillinger */
 
@@ -285,7 +273,7 @@ update products
 set stock = stock + 20
 where stock < 15;
 
-    /*  Tok en manuell sjekk for å se at de ble økt. Tok bare ut product_name jeg fant i første spøøring */
+    /*  Tok en manuell sjekk for å se at de ble økt. Tok bare ut product_name jeg fant i første spørring */
 SELECT *
 FROM products
 WHERE product_name IN (
@@ -392,30 +380,42 @@ WHERE customer_id IN (
     /*  Bruk en transaksjon */
 
 /* Legger inn bestilling og trekker fra på lagerhold */
-BEGIN;
+START TRANSACTION;
 
-insert into orders (customer_id, product_id, quantity, order_date, stats) VALUES
-                    (1, 1, 1, current_date, 'Delivered');
-update products
+/* Setter inn order */
+insert into orders (customer_id, product_id, quantity, order_date, stats)
+    values  ((select customer_id from customers where email = 'henrik.solberg@example.com'),
+             (select product_id from products where product_name = 'Docking station'),
+              1,   CURRENT_DATE, 'ordered');
+
+/* Oppdaterer lagerverdi */
+UPDATE products
 set stock = stock - 1
-where product_id = 1;
+    where product_name = 'Docking station';
 
-select * from products
-where product_id = 1;
+/* Sjekker at ordre er inne og at lagerverdi er oppdatert  */
+SELECT
+    c.first_name,
+    c.last_name,
+    p.product_name,
+    p.stock,
+    o.quantity,
+    o.order_date,
+    o.stats
 
-
-
-/* Sjekker lagerhold */
-SELECT *
-FROM products
-WHERE product_id = 1;
-
-/* Sjekker at den nye bestillingen ligger inne */
-SELECT *
-FROM orders
-WHERE customer_id = 1
-  AND product_id = 1
-ORDER BY order_id DESC
-LIMIT 1;
+FROM orders AS o
+         JOIN customers AS c
+              ON o.customer_id = c.customer_id
+         JOIN products AS p
+              ON o.product_id = p.product_id
+WHERE c.email = 'henrik.solberg@example.com'
+    and p.product_name = 'Docking Station'
+    order by o.order_id DESC ;
 
 COMMIT;
+
+/* Hadde jeg kjørt Rollback i steden for Commit på linjen over
+   så hadder jeg anulert både ordren og fratrekk på lager.
+   Man starter transaksjonen gjør det man skal, så bekrefter
+   man med Commit eller anullerer med Rollback
+ */
