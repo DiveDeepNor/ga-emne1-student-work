@@ -41,15 +41,28 @@ def cities():
     return render_template("cities.html", code=code, rows=rows)
 
 
+@app.route("/city/<int:city_id>")
+def show_city(city_id):
+    city = database.get_city(city_id)
+    if city is None:
+        return "City not found", 404
+    return render_template(
+        "city_form.html",
+        name=city.name,
+        city_id=city.id,
+        country_code=city.country_code,
+        district = city.district,
+        population=city.population
+    )
+
+
+
 @app.route("/add", methods=["GET", "POST"])
 def add_city():
     # Uses GET to open input field page:
     if request.method == "GET":
         return render_template(
-            "city_form.html",
-            name="",
-            city_id=None
-        )
+            "city_form.html", name="", city_id=None)
     # Uses POST to store city data in DB:
     name = request.form.get("name", "").strip()
     if not name or len(name) > 35:
@@ -58,12 +71,20 @@ def add_city():
     return redirect("/cities", code=303)
 
 
-@app.route("/city/<int:city_id>")
-def show_city(city_id):
-    city = database.get_city(city_id)
-    if city is None:
-        return "City not found", 404
-    return render_template("city_form.html",name=city.name,city_id=city.id)
+@app.route("/edit/<int:city_id>", methods=["POST"])
+def edit_city(city_id):
+    name = request.form.get("name", "").strip()
+    if not name or len(name) > 3:
+        return "Invalid city name", 400
+    database.update_city(city_id, name)
+    return redirect("/cities", code=303)
+
+
+@app.route("/delete/<int:city_id>", methods=["POST"])
+def remove_city(city_id):
+    database.delete_city(city_id)
+    return redirect("/cities", code=303)
+
 
 
 
