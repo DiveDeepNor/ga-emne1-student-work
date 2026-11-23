@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!-- Show data (if any) & show save button -->
+<form method="post" action="{{ '/edit/' ~ city_id if city_id else '/add' }}">
+    <label for="name">City name</label>
+    <input id="name" name="name" value="{{ name }}" maxlength="35" required>
+
+    <label for="country_code">CountryCode</label>
+    <input id="country_code" value="{{ country_code }}" readonly>
+
+    <label for="district">District</label>
+    <input id="district" value="{{ district }}" readonly>
+
+    <label for="population">Population</label>
+    <input id="population" value="{{ population }}" readonly>
+
+    <p><button type="submit">Save city</button></p>
+</form>
+<!-- If existing city, add delete button -->
+{% if city_id %}
+<form method="post" action="/delete/{{ city_id }}">
+    <button type="submit">Delete city</button>
+</form>
+{% endif %}
+<p><a href="/">Home</a></p></body>
+</html>
