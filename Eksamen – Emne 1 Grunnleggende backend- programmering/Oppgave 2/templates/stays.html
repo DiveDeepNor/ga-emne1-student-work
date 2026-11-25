@@ -1,0 +1,134 @@
+
+<!doctype html>
+<html lang="no">
+<head>
+    <meta charset="utf-8">
+    <title>Dyrepensjonat - Opphold</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f5f8;
+            margin: 0;
+            padding: 35px;
+            color: #253247;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #263b59;
+            color: white;
+            padding: 16px;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 15px 16px;
+            border-bottom: 1px solid #e8edf2;
+            font-size: 14px;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f7f9fc;
+        }
+
+        tbody tr:hover {
+            background-color: #edf3fa;
+        }
+
+        .room {
+            background-color: #e3efff;
+            color: #245a9a;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .home {
+            display: inline-block;
+            margin-top: 25px;
+            color: #315b91;
+            text-decoration: none;
+        }
+
+        .home:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Alle opphold</h1>
+    <p class="subtitle">Oversikt over registrerte opphold ved dyrepensjonatet</p>
+
+    <div class="table-container">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Opphold ID</th>
+                    <th>Kjæledyr</th>
+                    <th>Eier</th>
+                    <th>Rom</th>
+                    <th>Innsjekk</th>
+                    <th>Utsjekk</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for stay in rows %}
+                <tr>
+                    <td>{{ stay.stay_id }}</td>
+                    <td><strong>{{ stay.pet_name }}</strong></td>
+                    <td>{{ stay.owner_name }}</td>
+                    <td><span class="room">{{ stay.room_number }}</span></td>
+                    <td>{{ stay.check_in }}</td>
+                    <td>{{ stay.check_out }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">Ingen opphold registrert.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <a class="home" href="/">← Tilbake til forsiden</a>
+
+</div>
+
+</body>
+</html>
