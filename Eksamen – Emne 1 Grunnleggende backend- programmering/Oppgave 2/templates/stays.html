@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="no">
 <head>
@@ -102,6 +101,7 @@
                     <th>Rom</th>
                     <th>Innsjekk</th>
                     <th>Utsjekk</th>
+                    <th>Handling</th>
                 </tr>
             </thead>
 
@@ -114,10 +114,11 @@
                     <td><span class="room">{{ stay.room_number }}</span></td>
                     <td>{{ stay.check_in }}</td>
                     <td>{{ stay.check_out }}</td>
+                    <td><a href="/edit/{{ stay.stay_id }}">Rediger</a></td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="6">Ingen opphold registrert.</td>
+                    <td colspan="7">Ingen opphold registrert.</td>
                 </tr>
                 {% endfor %}
             </tbody>

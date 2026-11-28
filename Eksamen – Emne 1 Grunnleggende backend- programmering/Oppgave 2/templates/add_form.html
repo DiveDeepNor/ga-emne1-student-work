@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dyrepensjonat - Nytt opphold</title>
+</head>
+<body>
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+{% endif %}
+<!-- Show data (if any) & show save button -->
+<form method="POST" action="/add">
+    <label for="pet_id">Velg kjæledyr</label>
+
+    <select id="pet_id" name="pet_id" required>
+        <option value="">Velg kjæledyr</option>
+
+        {% for pet in pets %}
+            <option value="{{ pet.pet_id }}">
+                {{ pet.name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="room_id">Velg rom</label>
+
+    <select id="room_id" name="room_id" required>
+        <option value="">Velg rom</option>
+
+        {% for room in rooms %}
+            <option value="{{ room.room_id }}">
+                {{ room.room_number }} - {{ room.room_type }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="check_in">Innsjekksdato</label>
+    <input type="date" id="check_in" name="check_in" required>
+
+    <label for="check_out">Utsjekksdato</label>
+    <input type="date" id="check_out" name="check_out" required>
+
+    <button type="submit">Lagre opphold</button>
+</form>
+</body>
+</html>

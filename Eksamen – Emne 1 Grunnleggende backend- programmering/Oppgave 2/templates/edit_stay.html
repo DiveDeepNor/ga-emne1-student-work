@@ -1,0 +1,188 @@
+
+<!doctype html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dyrepensjonat - Rediger opphold</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f5f8;
+            margin: 0;
+            padding: 35px;
+            color: #253247;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .header {
+            background-color: #263b59;
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin: 0 0 10px 0;
+        }
+
+        .header p {
+            margin: 0;
+            color: #dce5f0;
+        }
+
+        .content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        select,
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        select:focus,
+        input:focus {
+            outline: none;
+            border-color: #36577f;
+        }
+
+        button {
+            background-color: #263b59;
+            color: white;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #36577f;
+        }
+
+        .error {
+            color: #c53030;
+            background-color: #fff5f5;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .home {
+            display: inline-block;
+            margin-top: 22px;
+            color: #315b91;
+            text-decoration: none;
+        }
+
+        .home:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Rediger opphold</h1>
+        <p>Endre informasjon om eksisterende opphold</p>
+    </div>
+
+    <div class="content">
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST" action="/edit/{{ stay.stay_id }}">
+
+            <div class="field">
+                <label for="pet_id">Velg kjæledyr</label>
+
+                <select id="pet_id" name="pet_id" required>
+
+                    {% for pet in pets %}
+                        <option value="{{ pet.pet_id }}"
+                            {% if pet.pet_id == stay.pet_id %}selected{% endif %}>
+                            {{ pet.name }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="room_id">Velg rom</label>
+
+                <select id="room_id" name="room_id" required>
+
+                    {% for room in rooms %}
+                        <option value="{{ room.room_id }}"
+                            {% if room.room_id == stay.room_id %}selected{% endif %}>
+                            {{ room.room_number }} - {{ room.room_type }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="check_in">Innsjekksdato</label>
+
+                <input type="date"
+                       id="check_in"
+                       name="check_in"
+                       value="{{ stay.check_in }}"
+                       required>
+            </div>
+
+            <div class="field">
+                <label for="check_out">Utsjekksdato</label>
+
+                <input type="date"
+                       id="check_out"
+                       name="check_out"
+                       value="{{ stay.check_out }}"
+                       required>
+            </div>
+
+            <button type="submit">Lagre endringer</button>
+
+        </form>
+
+        <a class="home" href="/stays">← Tilbake til opphold</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
